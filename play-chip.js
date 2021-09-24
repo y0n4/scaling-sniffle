@@ -109,6 +109,7 @@
       return this.getAttribute('label') || '';
     }
     get isDelete() {
+      // conditional rendering
       if (this.getAttribute('isDelete')) {
         return `<button class="remove-chip">✕</button>`;
       }
