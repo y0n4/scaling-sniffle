@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <meta charset="utf-8">
+    <title>Demo Chip Web Components</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <play-chip label="Basic Chip"></play-chip>
+    <play-chip label="Disabled Chip" isDisabled=true></play-chip>
+    <play-chip label="Outlined Chip" isOutlined=true></play-chip>
+    <play-chip label="Chip with Icon">
+      <img src="https://64.media.tumblr.com/197a90c7a9e00b1408fef5b83d50d392/8829c36e22235163-7f/s1280x1920/6df5dc20d5a725cd9c5c64c78fd88fe3cf868a40.jpg" />
+    </play-chip>
+    <play-chip
+      label="Chip with Delete Button"
+      isOutlined=true
+      isDelete=true
+    >
+    </play-chip>
+    <play-chip
+      label="Chip with Customization"
+      style="--my-background: pink; --icon-background: yellowgreen;"
+    >
+      <p>M</p>
+    </play-chip>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="play-chip.js"></script>
+</body>
+</html>
