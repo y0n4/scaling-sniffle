@@ -2,6 +2,10 @@
 
 (function() {
   class PlayChip extends HTMLElement {
+    static get observedAttributes() {
+      return ['label', 'disable', 'outline', 'delete'];
+    }
+
     constructor() {
       // establish prototype chain
       super();
@@ -79,8 +83,6 @@
         </style>
         <div id="main-chip">
           <slot></slot>
-          <p>${label}</p>
-          ${isDelete}
         </div>
       `;
 
@@ -91,26 +93,47 @@
       shadow.appendChild(editableListContainer);
     }
 
-    // fires after the element has been attached to the DOM
-    connectedCallback() {
+    renderContent() {
       // determines chip style customization based on passed properties
       let chipClass = 'chip';
       const mainChip = this.shadowRoot.querySelector('#main-chip');
-      if (this.getAttribute('isDisabled')) chipClass += ' disabled';
-      if (this.getAttribute('isOutlined')) chipClass += ' outlined';
+      if (this.getAttribute('disable')) chipClass += ' disabled';
+      if (this.getAttribute('outline')) chipClass += ' outlined';
       mainChip.className = chipClass;
+
+      const label = this.label;
+      const isDelete = this.isDelete;
+      const shadow = this.shadowRoot;
+      shadow.querySelector('#main-chip').innerHTML = `
+        <slot></slot>
+        <p>${label}</p>
+        ${isDelete}
+      `
 
       // add event handle if there's a delete button on chip
       const deleteChipButton = this.shadowRoot.querySelector('.remove-chip');
-      deleteChipButton && deleteChipButton.addEventListener('click', this.removeChipItem);
+      deleteChipButton && deleteChipButton.addEventListener('click', this.removeChipItem);      
     }
+
+    // fires after the element has been attached to the DOM
+    connectedCallback() {
+      this.renderContent();   
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      console.log(name);
+      if (oldValue !== newValue) {
+        this.renderContent();
+      }
+    }
+    
 
     get label() {
       return this.getAttribute('label') || '';
     }
     get isDelete() {
       // conditional rendering
-      if (this.getAttribute('isDelete')) {
+      if (this.getAttribute('delete')) {
         return `<button class="remove-chip">✕</button>`;
       }
       return '';
